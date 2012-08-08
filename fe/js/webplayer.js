@@ -367,10 +367,17 @@ WP.logout = function() {
 		WP.login_status = false;
 	});
 }
+WP.session_checker = function() {
+	$.get('api/ping',function(data) {
+		WP.login_status = data;
+		WP.render_navbar(WP.current_song);
+	})
+}
 $(function(){
 	WP.render_navbar(WP.current_song);
 	WP.render_playqueue(WP.playqueue);
 	WP.bind_events();
+	setInterval(WP.session_checker, 20000);
 	$("#jplayer").jPlayer({
 		volume: 0.5,
 		ready: function(player) {

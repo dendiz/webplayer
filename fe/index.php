@@ -107,4 +107,8 @@ function logout() {
 	unset($_SESSION['id_user']);
 	return json(true);
 }
+dispatch('/api/ping', "ping");
+function ping() {
+	return json(isset($_SESSION['id_user']));
+}
 run();

@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+DocumentRoot "/home/dendiz/Music"
+
+ServerName stream.webplayer.ryote
+
+<Directory "/home/dendiz/Music">
+
+DirectoryIndex index.php
+Options Indexes FollowSymLinks MultiViews
+AllowOverride all
+Order allow,deny
+Allow from all
+</Directory>
+</VirtualHost>

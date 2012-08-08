@@ -1,0 +1,13 @@
+<?php
+//requests made to this host for streaming the music.
+define('STREAM_HOST', 'http://stream.webplayer.local');
+//requests made to this host for images/css
+define('STATIC_HOST', 'http://static.webplayer.local');
+//place to store the album art fetched by the cli tools (artfetch.php and scan.php)
+define('ART_STORE', '/Users/dendiz/projects/webplayer/static/albumart');
+define('DB_HOST', '127.0.0.1');
+define('DB_USER', 'root');
+define('DB_PASS', 'superpassword');
+define('DB_NAME', 'webplayer');
+//don't forget to run the sql scripts to create the db tables
+define('PER_PAGE', 50); //songs per page on the list

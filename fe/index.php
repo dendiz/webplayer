@@ -6,6 +6,9 @@ require_once(dirname(__FILE__).'/../config/config.php');
 
 function before($route = array()) {
 	db();
+	if (@$route['options']['authenticate'])
+		if (!isset($_SESSION['id_user'])) return _error(0, "required authentication");
+
 }
 dispatch("/","home");
 function home() {
@@ -110,5 +113,43 @@ function logout() {
 dispatch('/api/ping', "ping");
 function ping() {
 	return json(isset($_SESSION['id_user']));
+}
+dispatch('api/playlists', 'playlists', array('authenticate'=>true));
+function playlists() {
+	$user_id = $_SESSION['id_user'];
+
+	$sql = "select pl.id_playlists, pl.name, sum(song.playtime_seconds) as duration, count(song.id_mp3_items) as total ,";
+	$sql .="group_concat(song.hash) as hashes ";
+	$sql .="from playlists pl, playlist_song ps, mp3_items song ";
+	$sql .="where pl.id_playlists = ps.fk_id_playlist and song.id_mp3_items = ps.fk_id_mp3_item ";
+	$sql .="and pl.fk_id_user = $user_id";
+
+	_log('playlists sql', $sql);
+	$res = query_all($sql);
+	$total = count($res);
+	return json(array("playlists"=>$res, "total"=>$total));
+}
+dispatch_post('api/playlist/save', "playlist_save", array('authenticate'=>true));
+function playlist_save() {
+	$name = _post('name');
+	$ids = _post('songs');
+	$user = $_SESSION['id_user'];
+	if (!$name) return _error(0, "missing name for playlist");
+	if (!$ids) return _error(0, "missing song list for playlist");
+	_log('saving ids', $ids);
+	insert("replace into playlists (fk_id_user, name) values (%d,'%s')", $user, $name);
+	$id = mysql_insert_id();
+	$ids = explode(",", $ids);
+	foreach($ids as $song) {
+		insert("insert into playlist_song (fk_id_playlist, fk_id_mp3_item) values (%d, %d)", $id, $song);
+	}
+	return json(true);
+}
+dispatch('/api/playlist/get/:id', "playlist_get");
+function playlist_get($id) {
+	$sql = "select song.* from mp3_items song, playlist_song ps ";
+	$sql .="where song.id_mp3_items = ps.fk_id_mp3_item and ps.fk_id_playlist = $id";
+	$res = query_all($sql);
+	return json($res);
 }
 run();

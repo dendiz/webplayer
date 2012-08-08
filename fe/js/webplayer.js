@@ -1,36 +1,6 @@
 WP.current_song = null;
-WP.playqueue = [ ]
-WP.playlists = [
-	{name: "playlist1", items: [
-		{
-		"id_mp3_items": 2,
-		"title":"A song of fire and ice",
-		"artist":"220 Volts",
-		"album": "Powerage",
-		"albumart":"http://static.webplayer.local/albumart/6.jpg",
-		"duration": 1502,
-		},
-		{
-		"id_mp3_items": 3,
-		"title":"I'll see the light tonight",
-		"artist":"Yngwie Malmsteen",
-		"album": "Marching out",
-		"albumart":"http://static.webplayer.local/albumart/3.jpg",
-		"duration": 592,
-		}
-	]},
-	{name: "playlist2", items: [
-	
-	{
-	"id_mp3_items": 3,
-	"title":"I'll see the light tonight",
-	"artist":"Yngwie Malmsteen",
-	"album": "Marching out",
-	"albumart":"http://static.webplayer.local/albumart/3.jpg",
-	"duration": 592,
-	}
-	]}
-]
+WP.playqueue = []
+WP.playlists = []
 WP.songlist_total = 0;
 WP.songlist_page = 1;
 WP.human_filesize = function(size) {
@@ -67,6 +37,15 @@ WP.artistlist_page = function(page) {
 	$("#artists-tab-header").addClass('active');
 	$("#artists-tab").show();
 }
+WP.playlist_page = function(page) {
+	console.log('get playlist');
+	if (!page) page = 1;
+	WP.clear_listpage();
+	WP.get_play_lists(page);
+	$("#playlists-tab-header").addClass('active');
+	$("#playlists-tab").show();
+	$(".add-pq-btn").die().live('click', function() {WP.add_pq_playlist($(this).attr('playlist-id'))});
+}
 WP.songlist_page = function(page) {
 	if (!page) page = 1;
 	WP.clear_listpage();
@@ -97,6 +76,14 @@ WP.clear_listpage = function() {
 	$(".tab-content .tab-pane").hide();
 	$(".add-pq-btn").die('click');
 }
+WP.add_pq_playlist = function(playlist_id) {
+	$.get('api/playlist/get/'+playlist_id, function(data) {
+		$.each(data, function(i,it) {
+			WP.playqueue.push(it);
+		});	
+		WP.render_playqueue(WP.playqueue);
+	});
+}
 WP.add_pq_search = function(songid) {
 	$.get('api/song/'+songid, function(data) {
 		WP.playqueue.push(data);
@@ -113,8 +100,13 @@ WP.add_pq_album = function(albumhash) {
 	$.get('api/album/'+albumhash+'/songs', function(data) {
 		$.each(data, function(i,it) {
 			WP.playqueue.push(it);
-			WP.render_playqueue(WP.playqueue);
 		});	
+		WP.render_playqueue(WP.playqueue);
+	});
+}
+WP.get_play_lists = function(page) {
+	$.get('api/playlists', function(data) {
+		WP.render_playlists(data.playlists, data.total, page);
 	});
 }
 WP.get_search_list = function(st, page) {
@@ -138,6 +130,11 @@ WP.get_song_list = function(page) {
 		WP.songlist = data.songlist;
 		WP.songlist_total = data.total;
 		WP.songlist_page = page;
+	});
+}
+WP.render_playlists = function(playlists, total, page) {
+	L.html("#playlists-tab", "#playlists_tmpl", {
+		playlists: playlists, total: total, page:page
 	});
 }
 WP.render_artistlist = function(artists, total, page) {
@@ -310,6 +307,32 @@ WP.index_pq = function(item) {
 	}
 	return null;
 }
+WP.save_pq_modal = function() {
+	//save pq as a pl
+	if (!WP.login_status) {
+		console.error('need auth to save pl');
+		return;
+	}
+	if (WP.playqueue.length == 0) {
+		console.error('no items in playqueue');
+		return;
+	}
+	$("#playlist-save-modal").modal('show');
+}
+WP.save_pq = function() {
+	var name = $("#playlist-name").val();
+	var songs =$.map(WP.playqueue, function(it) { return it.id_mp3_items }); 
+	console.log('save playlist', songs);
+	$.post('/api/playlist/save', {
+		name: name,
+		songs: songs.join()
+	}, function(data) {
+		if (!!data.error_code) {
+			console.error(data.error_message);
+			return;
+		}
+	});
+}
 WP.randomize_list = function() {
 	WP.get_song_list("random");
 }
@@ -319,6 +342,8 @@ WP.bind_events = function() {
 	$(".play-pq-btn").live('click', function() { WP.play_pq($(this).attr('song-id'));})
 	//empty pq
 	$(".empty-pq-btn").live('click', WP.empty_pq);
+	//save pq
+	$(".save-pq-btn").live('click', WP.save_pq_modal);
 	//player buttons
 	$("#play-btn").live('click', WP.player_play);
 	$("#next-btn").live('click', WP.player_next);

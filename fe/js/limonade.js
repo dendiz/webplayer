@@ -15,24 +15,24 @@ L.config = L.config || {
 	"viewdir": "views"
 };
 L.init = function() {
-	console.log("limonade init");
+	//console.log("limonade init");
 	$(window).bind('hashchange', L.hashchange);
 	var hash = window.location.hash;
 	if (hash.indexOf("#!") < 0) {
-		console.log("limonade redirecting to root");
+		//console.log("limonade redirecting to root");
 		window.location.href = window.location.href+L.default_route;	
 	} else {
 		L.hashchange();
 	}
 }
 L.hashchange = function() {
-	console.log('hashchanged');
+	//console.log('hashchanged');
 	var routes = L.scan();
 	if (routes.length == 0) {
-		console.log('no matching routes from',L.routes.length,'total');
+		//console.log('no matching routes from',L.routes.length,'total');
 		return;
 	}
-	console.log("matching routes are", routes);
+	//console.log("matching routes are", routes);
 	var route = routes.car();
 	//TODO: get the return value from the routed function to display the view.
 	var ret = route.fn.apply(window, route.params);
@@ -77,9 +77,9 @@ L.tmpl = function(str, data){
 L.scan = function() {
 	var url = window.location.hash.replace("#!","");
 	if (url.substr(-1) != "/") url += "/";
-	console.log("scanning routes for", url);
+	//console.log("scanning routes for", url);
 	var routes = $.grep(L.routes, function(route) {
-		console.log("..matching", route.pattern, "to", url);
+		//console.log("..matching", route.pattern, "to", url);
 		var reg = new RegExp(route.pattern);
 		return reg.test(url);
 	});
@@ -88,7 +88,7 @@ L.scan = function() {
 		var matches = reg.exec(url);
 		if (matches) {
 			it.params = matches.cdr();
-			console.log('..binding params', it.params);
+			//console.log('..binding params', it.params);
 		}
 	});
 	return routes;
@@ -113,5 +113,5 @@ L.dispatch = function(route, fn) {
 		}
 	});
 	L.routes.push({route:route,fn:fn,pattern:pattern, params: params});
-	console.log("registering route",route," - registered routes", L.routes);
+	//console.log("registering route",route," - registered routes", L.routes);
 }

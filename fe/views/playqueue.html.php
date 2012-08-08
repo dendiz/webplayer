@@ -1,7 +1,7 @@
 <script type="text/html" id="playqueue_tmpl">
 <ul class="nav nav-list" style="overflow: auto;" id="playqueue-nav">
 	<li class="nav-header"><span>Play Queue</span>
-		<i style="float: right; cursor: pointer;" title="save as playlist" class="icon-file"></i>
+		<i style="float: right; cursor: pointer;" title="save as playlist" class="icon-file save-pq-btn"></i>
 		<i class="icon-trash empty-pq-btn" style="cursor:pointer; float: right" title="empty playqueue"></i>
 	</li>
 	<% if (playqueue.length == 0) { %>

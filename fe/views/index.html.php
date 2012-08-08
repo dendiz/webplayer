@@ -46,7 +46,7 @@
 					<li class="active" id="songs-tab-header"><a href="#!/songs/1">Songs</a></li>
 					<li id="albums-tab-header"><a href="#!/albums/1">Albums</a></li>
 					<li id="artists-tab-header"><a href="#!/artists/1">Artists</a></li>
-					<li id="playlists-tab-header"><a href="#">Playlists</a></li>
+					<li id="playlists-tab-header"><a href="#!/playlists/1">Playlists</a></li>
 					<li id="search-tab-header"><a href="#search-modal" data-toggle="modal">Search</a></li>
 				</ul>
 				<div class="tab-content" style="overflow: visible">
@@ -54,6 +54,7 @@
 					<div class="tab-pane" id="albums-tab" style="display:none"></div>
 					<div class="tab-pane" id="searches-tab" style="display:none"></div>
 					<div class="tab-pane" id="artists-tab" style="display:none"></div>
+					<div class="tab-pane" id="playlists-tab" style="display:none"></div>
 				</div>	
 			</div>
 		</div>
@@ -74,6 +75,7 @@
 		L.dispatch('/artists/:page', WP.artistlist_page);
 		L.dispatch("/songs/:page", WP.songlist_page);
 		L.dispatch('/albums/:page', WP.albumlist_page);
+		L.dispatch('/playlists/:page', WP.playlist_page);
 		L.dispatch('/search/:st/:page', WP.searchlist_page);
 	</script>
 	<?php require_once('navbar.html.php'); ?>
@@ -82,8 +84,10 @@
 	<?php require_once('searchlist.html.php'); ?>
 	<?php require_once('albumlist.html.php'); ?>
 	<?php require_once('artistlist.html.php'); ?>
+	<?php require_once('playlist.html.php'); ?>
 	<?php require_once('search-modal.html.php'); ?>
 	<?php require_once('login-modal.html.php'); ?>
+	<?php require_once('playlist-save-modal.html.php'); ?>
   </body>
 </html>
 

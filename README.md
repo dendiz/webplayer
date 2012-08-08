@@ -14,3 +14,8 @@ Installation
 - run the cli application cli/scan.php -d <directory to your music files>
 - optional: add an entry in your crontab for cli/artfetch.php to fetch your albums arts. (limited to 100 request per day)
 
+Screenshot
+==========
+<a href="http://static.dendiz.com/webplayer-ss.png">
+<img src="http://static.dendiz.com/webplayer-thumb.png">
+</a>

@@ -58,6 +58,17 @@ function fetch($hashes) {
 		$image_url = $arr->responseData->results[0]->url;
 		$image_url = str_replace('%25','%',$image_url);
 		$image_data = file_get_contents($image_url);
+		if ($image_data === false) {
+			$try = 1;
+			while($try < 10) {
+				echo "image data was bad ($image_url), trying another image (attemp $try)".PHP_EOL;
+				$image_url = $arr->responseData->results[$try]->url;
+				echo "new attemp url $image_url".PHP_EOL;
+				$image_data = file_get_contents($image_url);
+				if ($image_data !== false) break;
+				$try++;
+			}
+		}
 		file_put_contents(ART_STORE."/".$covername.".jpg", $image_data);
 		$i++;
 	}

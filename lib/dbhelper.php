@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__).'/../lib/utils.php');
+require_once(dirname(__FILE__).'/../config/config.php');
 function db() {
 	_log('db host', DB_HOST, 'db user', DB_USER, 'db pass', DB_PASS, 'db name',DB_NAME);
 	mysql_connect(DB_HOST,DB_USER,DB_PASS) or die('cannot connect db');
@@ -26,7 +27,7 @@ function insert() {
 function query($sql) {
 	_log('sql - ', $sql);
 	$res = mysql_query($sql);
-	if (!$res) _log('mysql error no: '.mysql_errno($res). ' message: '.mysql_error($res));
+	if ($res === false) _log('mysql error no: '.mysql_errno($res). ' message: '.mysql_error($res));
 	return $res;
 }
 function query_one($sql) {

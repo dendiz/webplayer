@@ -214,10 +214,19 @@ WP.empty_pq = function() {
 	WP.render_songlist(WP.songlist, WP.songlist_total, WP.current_song, WP.playqueue, WP.playlists);
 }
 WP.stream_host = function(mp3_item) {
-	var sh =WP.STREAM_HOST + "/" + encodeURIComponent(mp3_item.filepath.substring(1)) 
+	var sh = WP.STREAM_HOST + "/" + encodeURIComponent(mp3_item.filepath.substring(1)) 
 				+ "/" + encodeURIComponent(mp3_item.filename);
 	console.log(sh);
 	return sh;
+}
+WP.set_current_song = function() {
+	$.get("api/token/get", function(data) {
+		var tokenized = WP.STREAM_HOST+"/stream/"+data+""+encodeURIComponent(WP.current_song.filepath.substring(1))+"/"+
+			encodeURIComponent(WP.current_song.filename);
+		console.log("stream url", tokenized);
+		$("#jplayer").jPlayer("setMedia", {mp3: tokenized});
+		WP.toggle_play();
+	});
 }
 WP.player_pause = function() {
 	$('#play-btn').removeClass('playing');
@@ -241,9 +250,8 @@ WP.player_play = function() {
 	if (!$("#play-btn").hasClass('paused')) {
 		WP.current_song = WP.playqueue[0];
 		WP.render_navbar(WP.current_song);
-		$("#jplayer").jPlayer("setMedia", {mp3: WP.stream_host(WP.current_song)});
-	}
-	WP.toggle_play();
+		WP.set_current_song();
+	} else WP.toggle_play();
 }
 WP.player_next = function() {
 	var idx = WP.index_pq(WP.current_song);
@@ -252,8 +260,7 @@ WP.player_next = function() {
 	WP.current_song = WP.playqueue[idx];
 	WP.render_navbar(WP.current_song);
 	WP.render_playqueue(WP.playqueue);
-	$("#jplayer").jPlayer("setMedia", {mp3: WP.stream_host(WP.current_song)});
-	WP.toggle_play();
+	WP.set_current_song();
 }
 WP.player_prev = function() {
 	var idx = WP.index_pq(WP.current_song);
@@ -262,8 +269,7 @@ WP.player_prev = function() {
 	WP.current_song = WP.playqueue[idx];
 	WP.render_navbar(WP.current_song);
 	WP.render_playqueue(WP.playqueue);
-	$("#jplayer").jPlayer("setMedia", {mp3: WP.stream_host(WP.current_song)});
-	WP.toggle_play();
+	WP.set_current_song();
 }
 WP.toggle_play = function() {
 	$("#jplayer").jPlayer("play");
@@ -276,8 +282,7 @@ WP.play_pq = function(songid) {
 	WP.current_song = WP.playqueue[idx];
 	WP.render_navbar(WP.current_song);
 	WP.render_playqueue(WP.playqueue);
-	$("#jplayer").jPlayer("setMedia", {mp3: WP.stream_host(WP.current_song)});
-	WP.toggle_play();
+	WP.set_current_song();
 }
 WP.player_timeupdate = function(player) {
 	$("#timeupdate").html(WP.human_duration(player.status.currentTime));

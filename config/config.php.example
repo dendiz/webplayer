@@ -3,6 +3,8 @@
 define('STREAM_HOST', 'http://stream.webplayer.local');
 //requests made to this host for images/css
 define('STATIC_HOST', 'http://static.webplayer.local');
+//storage of music files (if using the stream server). Else point webserver virtual host here
+define('STREAM_STORE', '/webplayer_music');
 //place to store the album art fetched by the cli tools (artfetch.php and scan.php)
 define('ART_STORE', '/Users/dendiz/projects/webplayer/static/albumart');
 define('DB_HOST', '127.0.0.1');

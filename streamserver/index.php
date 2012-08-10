@@ -3,7 +3,10 @@ require_once(dirname(__FILE__)."/vendor/limonade.php");
 require_once(dirname(__FILE__)."/../lib/dbhelper.php");
 require_once(dirname(__FILE__)."/../lib/utils.php");
 require_once(dirname(__FILE__)."/../config/config.php");
-
+dispatch('stream/test','stream_test');
+function stream_test() {
+	return json('test passed');
+}
 dispatch('stream/:token/:file', 'stream');
 function stream($token, $file) {
 	db();

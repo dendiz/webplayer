@@ -6,6 +6,7 @@ require_once(dirname(__FILE__)."/../config/config.php");
 
 function main() {
 	echo "webplayer album art fetcher".PHP_EOL;
+	echo "scanning ".ART_STORE.PHP_EOL;
 	$files = get_art_files(ART_STORE);
 	$all_hashes = get_hashes();
 	$to_fetch = filter_existing($files, $all_hashes);

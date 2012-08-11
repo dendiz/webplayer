@@ -51,7 +51,8 @@ function _error($code, $msg) {
 }
 
 function _log() {
-	$msg = implode(' ', func_get_args());
+	$args = func_get_args();
+	$msg = implode(' ', $args);
 	$msg = date("H:i:s") . " - " . $msg . PHP_EOL;
 	file_put_contents("/tmp/webplayer.log", $msg, FILE_APPEND);
 }

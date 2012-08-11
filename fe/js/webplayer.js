@@ -221,7 +221,7 @@ WP.stream_host = function(mp3_item) {
 }
 WP.set_current_song = function() {
 	$.get("api/token/get", function(data) {
-		var tokenized = WP.STREAM_HOST+"/stream/"+data+""+encodeURIComponent(WP.current_song.filepath.substring(1))+"/"+
+		var tokenized = WP.STREAM_HOST+"/stream/"+data+"/"+encodeURIComponent(WP.current_song.filepath.substring(1))+"/"+
 			encodeURIComponent(WP.current_song.filename);
 		console.log("stream url", tokenized);
 		$("#jplayer").jPlayer("setMedia", {mp3: tokenized});

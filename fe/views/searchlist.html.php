@@ -1,4 +1,6 @@
 <script type="text/html" id="searchlist_tmpl">
+<input type="hidden" id="search-results" value='<%= JSON.stringify(searchlist) %>'>
+<button class="btn btn-mini" onclick="WP.pq_all_search()">PQ all</button>
 <table class="table table-striped table-condensed">
 	<thead>
 	<tr>

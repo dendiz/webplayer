@@ -74,6 +74,7 @@ WP.searchlist_page = function(st, page) {
 WP.clear_listpage = function() {
 	$("ul.nav.nav-tabs li").removeClass('active');
 	$(".tab-content .tab-pane").hide();
+	$(".tab-pane").empty();
 	$(".add-pq-btn").die('click');
 }
 WP.add_pq_playlist = function(playlist_id) {
@@ -338,6 +339,13 @@ WP.save_pq = function() {
 		}
 	});
 }
+WP.pq_all_search = function() {
+	var data = $.parseJSON($("#search-results").val());
+	$.each(data, function(i,it) {
+		WP.playqueue.push(it);
+	});	
+	WP.render_playqueue(WP.playqueue);
+}
 WP.randomize_list = function() {
 	WP.get_song_list("random");
 }
@@ -355,6 +363,8 @@ WP.bind_events = function() {
 	$("#prev-btn").live('click', WP.player_prev);
 	//randomize button
 	$("#randomize").click(WP.randomize_list);
+	//pq all button
+	
 	$("#modal-search-query").keyz({
 		"enter":function() {
 			$("#search-modal").modal('hide');

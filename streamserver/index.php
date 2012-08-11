@@ -11,7 +11,7 @@ dispatch('stream/:token/:file', 'stream');
 function stream($token, $file) {
 	db();
 	$sql = "select * from stream_access where token = '$token' and used = 0";
-	$decoded_file = escapeshellcmd(urldecode($file));
+	$decoded_file = (urldecode($file));
 	$decoded_file = str_replace('|','/',$decoded_file);
 	_log('file', $file, 'decoded', $decoded_file);
 	$res = query_one($sql);

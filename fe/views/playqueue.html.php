@@ -14,8 +14,8 @@
 	<li class="pq-hoverable" style="padding: 2px; background-color: <%= active %>; margin: 0 0 2px;">
 		<img style="float:left;margin: 0px 3px 0 0;border: 1px solid #ccc" src="<%= WP.art_url(item) %>" height="36" width="36">
 		<div style="display: inline-block">
-		<div title="<%= item.title %> - <%= item.artist %>"><strong><%= item.title.toString().ellipsis(25) %></strong></div>
-		<div><%= item.artist.toString().ellipsis(25) %></div>	
+		<div title="<%= item.title %> - <%= item.artist %>"><strong><%= item.title.toString().ellipsis(20) %></strong></div>
+		<div><%= item.artist.toString().ellipsis(20) %></div>	
 		</div>
 		<i class="icon-play play-pq-btn" song-id="<%= item.id_mp3_items %>" style="cursor: pointer;margin-top: 4px;float: right"></i>
 		<i class="icon-trash remove-pq-btn" song-id="<%= item.id_mp3_items %>" style="cursor: pointer;margin-top: 4px;float: right"></i>

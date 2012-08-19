@@ -162,7 +162,7 @@ function token_get() {
 	$sql .="fk_id_user = $user_id and created_at BETWEEN DATE_SUB(NOW() , INTERVAL 10 MINUTE) and NOW();";
 	$res = query_one($sql);
 	$total = $res['total'];
-	if ($total > 3) return json(false);
+	if ($total > 6) return json(false);
 	$sql = "insert into stream_access (fk_id_user, token) values(%d, '%s')";
 	insert($sql, $user_id, $token);
 	return json($token);

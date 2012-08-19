@@ -3,14 +3,14 @@
       <div class="navbar-inner">
         <div class="">
           <a class="brand" href="#">Webplayer</a>
-		  <img id="loader" src="http://static.webplayer.local/img/loader.gif" style="float:left;margin-top:10px;visibility: hidden">
+		  <img id="loader" src="<?php echo STATIC_HOST?>/img/loader.gif" style="float:left;margin-top:10px;visibility: hidden">
           <div class="nav-collapse">
             <ul class="nav">
 			  <li class="divider-vertical"></li>
-              <li class=""><a href="javascript:;" id="prev-btn"><img src="http://static.webplayer.local/img/glyphicons_170_step_backward.png"></a></li>
-              <li class=""><a href="javascript:;" id="play-btn"><img src="http://static.webplayer.local/img/glyphicons_173_play.png"></a></li>
-              <li class=""><a href="javascript:;" id="next-btn"><img src="http://static.webplayer.local/img/glyphicons_178_step_forward.png"></a></li>
-              <li class=""><a href="javascript:;" id="volume-btn"><img src="http://static.webplayer.local/img/glyphicons_184_volume_up.png"></a></li>
+              <li class=""><a href="javascript:;" id="prev-btn"><img src="<?php echo STATIC_HOST?>/img/glyphicons_170_step_backward.png"></a></li>
+              <li class=""><a href="javascript:;" id="play-btn"><img src="<?php echo STATIC_HOST?>/img/glyphicons_173_play.png"></a></li>
+              <li class=""><a href="javascript:;" id="next-btn"><img src="<?php echo STATIC_HOST?>/img/glyphicons_178_step_forward.png"></a></li>
+              <li class=""><a href="javascript:;" id="volume-btn"><img src="<?php echo STATIC_HOST?>/img/glyphicons_184_volume_up.png"></a></li>
 			  <li><img src="<%= WP.art_url(item)%>" height="24" width="24" style="border: 1px solid #CCC; margin: 7px 7px 0 10px;"></li>
 			  <li>
 				  <a href="#" style="padding-top: 6px;">

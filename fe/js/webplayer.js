@@ -162,7 +162,13 @@ WP.render_playqueue = function(pq) {
 	$("#playqueue-nav").height(viewport-150);
 }
 WP.render_navbar = function(current) {
+	var playing = $("#play-btn").hasClass('playing');
+	console.log('render navbar() is playing',playing);
 	L.html("#navbar-container","#navbar_tmpl", {item: current});
+	if (playing) {
+		$("#play-btn").addClass('playing');
+		$("#play-btn").find('img').attr('src',WP.STATIC_HOST + "/img/glyphicons_174_pause.png");
+	}
 	$("#volume-slider").slider({
 		orientation: "vertical",
 		min:0,
@@ -240,6 +246,7 @@ WP.player_playhead = function(val) {
 	$("#jplayer").jPlayer("playHead", val);
 }
 WP.player_play = function() {
+	console.log('player_play()');
 	if (!WP.current_song && WP.playqueue.length == 0) {
 		console.error('load a file to the playqueue first');
 		return;
@@ -275,6 +282,7 @@ WP.player_prev = function() {
 WP.toggle_play = function() {
 	$("#jplayer").jPlayer("play");
 	$("#play-btn").find('img').attr('src',WP.STATIC_HOST + "/img/glyphicons_174_pause.png");
+	console.log('adding class play and removing class pause');
 	$("#play-btn").addClass('playing');
 	$('#play-btn').removeClass('paused');
 }
@@ -417,7 +425,7 @@ $(function(){
 	WP.render_navbar(WP.current_song);
 	WP.render_playqueue(WP.playqueue);
 	WP.bind_events();
-	setInterval(WP.session_checker, 20000);
+	setInterval(WP.session_checker, 300000);
 	$("#jplayer").jPlayer({
 		volume: 0.5,
 		ready: function(player) {

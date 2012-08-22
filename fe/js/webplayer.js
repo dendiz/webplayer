@@ -416,6 +416,7 @@ WP.logout = function() {
 	});
 }
 WP.session_checker = function() {
+	console.log('session checked');
 	$.get('api/ping',function(data) {
 		WP.login_status = data;
 		WP.render_navbar(WP.current_song);
